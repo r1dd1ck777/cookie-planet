@@ -1,0 +1,160 @@
+= content_for :gray_navbar
+  .gray-navbar.recipe-show-action
+    .container
+      .row
+        .col-xs-3
+          - next_recipe = @recipe.show_next_recipe
+          - prev_recipe = @recipe.show_prev_recipe
+          - if prev_recipe
+            a.btn.btn-success.btn-sm apply-click-on-key-up2="37" rel="nofollow" apply-tooltip="" title=prev_recipe.title href=permalink_path(prev_recipe)
+              i.fa.fa-chevron-left
+          - if next_recipe && prev_recipe
+            | &nbsp;&nbsp;
+          - if next_recipe
+            a.btn.btn-success.btn-sm apply-click-on-key-up2="39" rel="nofollow" apply-tooltip="" title=next_recipe.title href=permalink_path(next_recipe)
+              i.fa.fa-chevron-right
+
+        .col-xs-5
+          - @recipe.recipe_tags.each do |tag|
+            a.btn.btn-success.btn-xs href=permalink_path(tag) #{tag.name}
+
+        .col-xs-4
+          span.pull-right
+            span.ui-views-count
+              i.fa.fa-eye
+              br
+              | #{@recipe.views_count}
+            noindex
+              - if current_user.nil? || (current_user && !current_user.in_wanted?(@recipe))
+                a.btn.btn-sm.btn-success rel="nofollow" href=wanted_recipe_path(@recipe) data-method="post"
+                  i.fa.fa-star
+                  | В избранное
+              - else
+                - if current_user.in_wanted?(@recipe)
+                  a.btn.btn-sm.btn-success.active rel="nofollow" href=wanted_recipe_path(@recipe) data-method="delete"
+                    i.fa.fa-star
+                    | Уже в избранном
+              - if can? :edit, @recipe
+                a.edit-link.btn.btn-success.btn-sm href=recipe_edit_path(@recipe)
+                  i.fa.fa-pencil
+                  | Изменить
+
+.recipe-show-action ng-controller="vMainCore"
+  div ng-controller="vShow"
+    = render 'recipe/currency_dialog'
+
+    meta angular-load="v-recipe-show"
+    /script type="application/json" rid-settings="foods" angular-load-json="/ajax/foods/all"
+    script type="application/json" rid-settings="countTypes" angular-load-json="/ajax/count_types/all"
+    script type="application/json" rid-settings="currency_data"
+      | #{{currency_data.to_json}}
+    script type="application/json" rid-settings="recipe"
+      | #{{@recipe_json}}
+
+    .angular-loader
+      = render 'layouts/loader'
+
+    .v-recipe-show.angular-hide-on-load.row
+      .clearfix
+
+      .col-xs-12
+        h2.text-center
+          | #{@recipe.title}
+
+      .col-xs-12.col-sm-6.col-md-4
+        a rel="nofollow" data-lightbox="image-1" href=@recipe.image.url
+          img.img-responsive src=@recipe.image.url alt=@recipe.title
+        .visible-sm
+          div
+            br
+            b
+              i.fa.fa-pie-chart
+              span &nbsp;В 100гр:
+          div
+            | калорийность - #{@recipe.food_value.energy} ккал, белки - #{@recipe.food_value.protein} гр, жиры #{@recipe.food_value.fat}гр, углеводы #{@recipe.food_value.sugar} гр
+
+      .col-xs-12.col-sm-6.col-md-8
+        .row
+          .col-xs-12.col-md-6
+            - if @recipe.duration
+              div
+                i.fa.fa-clock-o
+                b &nbsp;Время приготовления:&nbsp;
+                | #{@recipe.duration} мин.
+                br
+            div
+              /i.fa.fa-lemon-o
+              i.fa.fa-puzzle-piece
+              b &nbsp;Инградиенты:
+            div
+              - @recipe.components.each_with_index do |component, index|
+                = render 'recipe/component_show_list_item', ng: index == 0, component: component
+
+          .col-xs-12.col-md-6
+            b.text-left
+              i.fa.fa-calculator
+              span &nbsp;Всего получится:
+
+            noindex.text-right
+              a.btn.btn-success.btn-xs.pull-right ng-click="restore()" rel="nofollow" ng-show="!_is_new"
+                i.fa.fa-undo
+                | Сбросить
+
+            div.multiply-weight ng-show="_tmp.weight > 0"
+              span data-placement="auto right" apply-tooltip="" title="Измени на то, сколько ты хочеш приготовить!"
+                i.fa.fa-pencil
+                input.culc-input.text-center ng-model="_tmp.weight" ng-change="calcWeight()"
+                span кг&nbsp;&nbsp;
+                span.active-text apply-tooltip="" title="Вдвое больше!" ng-click="multiplyWeight(2)" x2
+                span.active-text apply-tooltip="" title="Тройная порция" ng-click="multiplyWeight(3)" x3
+                span.active-text apply-tooltip="" title="Поменьше" ng-click="multiplyWeight(0.5)" ÷2
+
+
+            div ng-show="_tmp.cost > 0"
+              span data-placement="auto right" apply-tooltip="" title="Измени на то, сколько ты хочеш потратить!"
+                i.fa.fa-pencil
+                input.culc-input.text-center ng-model="_tmp.cost" ng-change="calcCost()"
+                span.active-text v-recipe-currency="#currency-dialog" ng-bind="currencyLabel()"
+
+            div ng-show="_tmp.food_value_energy > 0"
+              span data-placement="auto right" apply-tooltip="" title="Измени, если следиш за каллориями!"
+                i.fa.fa-pencil
+                input.culc-input.text-center ng-model="_tmp.food_value_energy" ng-change="calcEnergy()"
+                | ккал
+
+            - if @recipe.food_value.usefull?
+              .hidden-sm
+                div
+                  br
+                  b
+                    i.fa.fa-pie-chart
+                    span &nbsp;В 100гр:
+
+                div
+                  | калорийность - #{@recipe.food_value.energy} ккал, белки - #{@recipe.food_value.protein} гр, жиры #{@recipe.food_value.fat}гр, углеводы #{@recipe.food_value.sugar} гр
+
+      .clearfix
+      .col-xs-12
+        div.text-center
+          br
+          b
+            i &mdash;&nbsp;&nbsp;
+            /i.fa.fa-cutlery
+            i.fa.fa-cutlery
+            i  Приготовление &mdash;
+          br
+          br
+
+        - @recipe.recipe_text_nodes.each do |text_node|
+          .recipe-text-node
+            - if text_node.node == 'image'
+              .col-xs-12.col-sm-4.col-lg-3.col-lg-offset-2.text-right
+                i
+                  | #{{text_node.text}}
+              .col-xs-12.col-sm-8.col-lg-6
+                img.img-responsive src=text_node.image.url
+              hr.visible-xs
+            - if text_node.node == ''
+              .col-xs-12
+                | #{{text_node.text}}
+            .clearfix

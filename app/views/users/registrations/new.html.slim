@@ -1,0 +1,60 @@
+.registration-page-content
+
+  h2.h4 Регистрация
+  .row
+    .col-xs-12.social-login-form
+      .form-group
+        span Регистрация через
+        a.btn.btn-primary.btn-sm.m-l-10 href=user_omniauth_authorize_path(:facebook)
+          | Facebook
+          i.fa.fa-facebook.r
+        a.btn.btn-primary.btn-sm.m-l-10 href=user_omniauth_authorize_path(:vkontakte)
+          | Вконтакте
+          i.fa.fa-vk.r
+
+      .clearfix
+
+    .dividing-legend.text-center
+      | &mdash; или по-старинке &mdash;
+
+    = simple_form_for resource, as: resource_name, url: registration_path(resource_name) do |f|
+      = devise_error_messages!
+      .clearfix
+      .col-xs-12
+        .form-group
+          /= f.label :email, class: 'form-label'
+          /span
+            = f.full_error :email
+          = f.input_field :email, class: 'form-control', autofocus: true, pattern: '*', placeholder: t('activerecord.attributes.user.email') + '*'
+
+        .form-group
+          /= f.label :password, class: 'form-label', required: true
+          /span
+          /  = f.full_error :password
+          = f.input_field :password, class: 'form-control', autocomplete: "off", placeholder: t('activerecord.attributes.user.password')+ '*'
+
+        .form-group
+          /= f.label :password_confirmation, class: 'form-label', required: true
+          /span
+          /  = f.full_error :password_confirmation
+          = f.input_field :password_confirmation, class: 'form-control', autocomplete: "off", placeholder: t('activerecord.attributes.user.password_confirmation')+ '*'
+
+      .col-xs-12
+
+        .form-group
+          /= f.label :fname, class: 'form-label'
+          /span
+          /  = f.full_error :fname
+          = f.input_field :fname, class: 'form-control', placeholder: t('activerecord.attributes.user.fname')
+
+        .form-group
+          /= f.label :lname, class: 'form-label'
+          /span
+          /  = f.full_error :lname
+          = f.input_field :lname, class: 'form-control', placeholder: t('activerecord.attributes.user.lname')
+
+      .col-xs-12
+        .clearfix
+        = render 'form/save_btn', btn: 'Зарегистрироваться'
+        .clearfix
+

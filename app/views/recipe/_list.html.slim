@@ -1,0 +1,36 @@
+.recipe-list
+  - recipes.each do |recipe|
+    - edit = can? :edit, recipe
+    - 1.times do
+      .col-xs-4.col-md-3.col-lg-2-4.col-xlg-2.recipe-item
+        - if edit
+          .overlay.ui-views-count
+            a href=recipe_edit_path(recipe)
+              .text-center
+                span.ui-views-count
+                  i.fa.fa-pencil
+                  br
+                  | Изменить
+        a href=permalink_path(recipe)
+          .img-wr
+            .components class="#{recipe_slide_class}"
+              ul
+                - i = 0
+                - max = 6
+                - recipe.components.each do |component|
+                  - i = i + 1
+                  - if i <= max
+                    li
+                      nobr #{component.food.name} - #{component_count component.count} #{t_count_type(component.count_type)}
+                - if recipe.components.count > max
+                  - left = recipe.components.count - max
+                  li ... и еще #{left} #{Russian.p(left, "компонент", "компонента", "компонентов")}
+
+            img.img-responsive src=recipe.image.url(:list_square)
+
+          span.title #{recipe.title}
+          .clearfix
+          .tags
+            - if recipe.recipe_tags.count > 0
+              span #{recipe.recipe_tags[0].name}
+            span.pull-right #{recipe.views_count} #{Russian.p(recipe.views_count, "просмотр", "просмотра", "просмотров")}

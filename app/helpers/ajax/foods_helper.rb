@@ -1,0 +1,2 @@
+module Ajax::FoodsHelper
+end

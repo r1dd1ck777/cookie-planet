@@ -1,0 +1,26 @@
+db:
+  user: root
+  pass: admin
+  host: localhost
+  name: vkusno
+
+seo:
+  title: Рецепты и кулинария в картинках
+  description: Рецепты и кулинария в картинках
+  keywords: Рецепты и кулинария в картинках
+  title_sufix: Рецепты и кулинария в картинках
+  og_hostname: vkusnyashki.com
+
+fb:
+  app_id: 319690498155864
+  app_secret: 09be62f87244484e745eec49eaef3433
+
+vk:
+  app_id: 4711873
+  app_secret: QSylEaydIdrfwLdIj6Lk
+
+host: localhost
+port: 3000
+
+
+

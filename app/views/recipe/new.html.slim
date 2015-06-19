@@ -1,0 +1,215 @@
+br
+.recipe-form-action ng-controller="vMainCore"
+  div ng-controller="vMain"
+    - if @recipe.persisted?
+      .pull-right
+        a.btn.btn-danger.btn-xs href=recipe_update_path(@recipe) data-method="delete"
+          i.fa.fa-times
+          | Удалить
+      .clearfix
+
+    meta angular-load="v-recipe-form"
+    script type="application/json" rid-settings="foods" angular-load-json="/ajax/foods/all"
+    script type="application/json" rid-settings="countTypes" angular-load-json="/ajax/count_types/all"
+    script type="application/json" rid-settings="currency_data"
+      | #{{currency_data.to_json}}
+    script type="application/json" rid-settings="recipe"
+      | #{{@recipe_json}}
+
+    .angular-loader
+      = render 'layouts/loader'
+
+    = simple_form_for @recipe ? @recipe : Recipe.new, url: @recipe.persisted? ? recipe_update_path(@recipe) : recipe_create_path, html: { class: 'angular-hide-on-load v-recipe-form-el' } do |f|
+      .hide
+        = f.simple_fields_for :food_value do |fvf|
+          = fvf.input :protein, input_html: { 'value' => "{{recipe.food_value_in_100('protein')}}" }
+          = fvf.input :fat, input_html: { 'value' => "{{recipe.food_value_in_100('fat')}}" }
+          = fvf.input :sugar, input_html: { 'value' => "{{recipe.food_value_in_100('sugar')}}" }
+          = fvf.input :energy, input_html: { 'value' => "{{recipe.food_value_in_100('energy')}}" }
+          = fvf.input :sugar_index
+      .form-group.row
+        .col-xs-3
+          = f.full_error :image
+          .img-cache-wr
+            .img-cache-placeholder ng-show="recipe.show_image_placeholder()"
+              i.fa.fa-image
+              br
+              span.img-label выбрать картинку
+            .img-cache-placeholder.edit ng-show="!recipe.show_image_placeholder()"
+              i.fa.fa-edit
+            img.img-cache.img-responsive ng-src="{{ recipe.get_image() }}" ng-show="!recipe.show_image_placeholder()"
+
+            .hide
+              = f.input_field :image, as: :file, 'rid-image-file' => '', 'image-src' => 'recipe.image._base64', 'image-closest-drop' => '.img-cache-wr'
+              = f.input_field :image_cache
+
+        .col-xs-4
+          .row
+            .col-xs-12
+              = f.label :title, class: 'form-label'
+              span
+                = f.full_error :title
+                = f.input_field :title, class: 'form-control', autofocus: true, required: true
+            .col-xs-12
+              = f.label :recipe_tags, class: 'form-label'
+              span
+                = f.full_error :recipe_tags
+                = f.input_field :recipe_tag_ids, as: :select, collection: RecipeTag.all, multiple: true, 'rid-select2' => ''
+        .col-xs-5
+          .row
+            .form-group.col-xs-12.text-right.duration-group
+              = f.label :duration, class: 'form-label'
+              = f.input_field :duration, class: 'form-control'
+              | мин.
+              span
+                = f.full_error :duration
+
+            .form-group.col-xs-12.text-right
+              = f.label :kg, class: 'form-label'
+              = f.input_field :kg, class: 'form-control'
+              | кг.
+              span
+                = f.full_error :kg
+            .clearfix
+
+      div
+        .row
+          .col-xs-6
+            label.form-label Инградиенты:
+          .col-xs-6
+            a.btn.btn-success.btn-xs.pull-right ng-click="newComponentView()"
+              span ng-show="component_views[_tmp.component_view] == 'none'" Покзывать состав иградиентов
+              span ng-show="component_views[_tmp.component_view] == 'component'" Показать состав рецепта
+              span ng-show="component_views[_tmp.component_view] == 'recipe'" Скрыть состав
+
+        .row
+          .recipe-form-component-list ng-class="{ 'active-components' : component_views[_tmp.component_view] == 'component' }"
+            .component-item.form-group ng-repeat="component in recipe.components" ng-hide="component._destroy"
+              .hide
+                input type="checkbox" name="recipe[components_attributes][{{ $index }}][_destroy]" ng-model="component._destroy"
+                input type="hidden" name="recipe[components_attributes][{{ $index }}][id]" value="{{ component.id }}"
+              .col.remove-link-col
+                a.remove-link rel="nofollow" ng-click="removeComponent(component)"
+                  i.fa.fa-times-circle-o
+                .index
+                  | {{ $index + 1 }})
+              .col.name-col.dashed
+                input type="text" name="recipe[components_attributes][{{ $index }}][food_id]" ng-model="component.food_id" v-recipe-select2-new=""
+              .dash-col &mdash;
+              .col.count-col
+                input.form-control.dashed type="text" v-recipe-count="" ng-model="component.count" name="recipe[components_attributes][{{ $index }}][count]"
+              .col.count-type-col.dashed
+                input type="text" v-recipe-select2-count-type="" component="component" ng-model="component.count_type" name="recipe[components_attributes][{{ $index }}][count_type]"
+              .col.component-price-col ng-if="component.cost() > 0.001"
+                | &nbsp;=&nbsp;
+                span.line ng-bind="component.cost()"
+                | &nbsp;
+                span.active-text v-recipe-currency="#currency-dialog" ng-bind="currencyLabel()"
+
+              .col.component-values-col.line ng-show="component_views[_tmp.component_view] == 'component'"
+                .col-xs-3
+                  span ng-bind="component.food_value('energy')"
+                  span &nbsp;ккал
+                .col-xs-3
+                  b белки:&nbsp;
+                  span ng-bind="component.food_value('protein')"
+                  span &nbsp;гр.
+                .col-xs-3
+                  b жиры:&nbsp;
+                  span ng-bind="component.food_value('fat')"
+                  span &nbsp;гр.
+                .col-xs-3
+                  b углеводы:&nbsp;
+                  span ng-bind="component.food_value('sugar')"
+                  span &nbsp;гр.
+              .clearfix
+
+            .form-group.text-center ng-show2="!_tmp.show_component_value"
+              a.btn.btn-primary rel="nofollow" ng-click="addComponent()"
+                i.fa.fa-plus
+                | Добавить инградиент
+              .clearfix
+            .clearfix
+
+          .component-recipe-values-col.pull-right.form-group.hidden-xs.hidden-sm ng-show="component_views[_tmp.component_view] == 'recipe'"
+            table.table
+              thead
+                tr
+                  th colspan="2" Всего:
+              tbody
+                tr
+                  td вес
+                  td
+                    span ng-bind="recipe.weight()"
+                    | &nbsp;кг
+                tr
+                  td стоимость
+                  td
+                    span ng-bind="recipe.cost()"
+                    | &nbsp;
+                    span.active-text ng-bind="currencyLabel()" v-recipe-currency="#currency-dialog"
+                tr
+                  td калорий
+                  td
+                    span ng-bind="recipe.food_value('energy')"
+                    | &nbsp;ккал
+              thead
+                tr
+                  th colspan="2" В 100гр:
+              tbody
+                tr
+                  td калорийность
+                  td
+                    span ng-bind="recipe.food_value_in_100('energy')"
+                    | &nbsp;ккал
+                tr
+                  td белки
+                  td
+                    span ng-bind="recipe.food_value_in_100('protein')"
+                    | &nbsp;гр
+                tr
+                  td жиры
+                  td
+                    span ng-bind="recipe.food_value_in_100('fat')"
+                    | &nbsp;гр
+                tr
+                  td углеводы
+                  td
+                    span ng-bind="recipe.food_value_in_100('sugar')"
+                    | &nbsp;гр
+            .clearfix
+
+        .clearfix
+
+      .form-group
+        label.form-label Приготовление:
+        div ng-repeat="text_node in recipe.recipe_text_nodes track by $index"
+          = render 'recipe/new/text_nodes'
+
+        .clearfix
+
+        i.fa.fa-plus.add-text-node-label
+        a.btn.btn-primary.btn-add-node ng-click="addImageNode()" title="Добавить картинку" apply-tooltip=""
+          i.fa.fa-image
+        a.btn.btn-primary.btn-add-node ng-click="addTextNode()" title="Добавить текст" apply-tooltip=""
+          i.fa.fa-quote-left
+
+      .clearfix
+
+      .form-group.text-center
+        button.btn.btn-primary type="submit"
+          span ng-show="isSubmited"
+            i.fa.fa-spinner.fa-spin
+            | Загружаем картинки и готовим вкусняшку)
+          span ng-show="!isSubmited"
+            i.fa.fa-cutlery
+            | Сохранить рецепт
+        |&nbsp;&nbsp;&nbsp;
+        a.btn.btn-primary ng-show="!isSubmited" href=(@recipe.persisted? ? recipe_edit_path(@recipe) : recipe_new_path) rel="nofollow"
+          i.fa.fa-undo
+          | Ааа, верните как было :)
+
+        .clearfix
+
+
+    = render 'recipe/currency_dialog'

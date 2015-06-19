@@ -1,0 +1,10 @@
+//= require modules/rid/settings
+//= require modules/rid/ls
+//= require modules/rid/contenteditable
+//= require modules/rid/i18n
+//= require modules/rid/rid_http
+//= require modules/rid/image_file
+// require modules/rid/wysiwyg
+//= require modules/v_recept_core
+//= require modules/v_recept_form
+//= require modules/v_recept_show

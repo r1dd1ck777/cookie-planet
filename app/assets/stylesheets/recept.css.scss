@@ -1,0 +1,478 @@
+//form
+.angular-hide-on-load{
+  display: none;
+}
+.angular-ready{
+  .angular-hide-on-load{
+    display: block;
+  }
+  .angular-loader{
+    display: none;
+  }
+}
+
+.recipe-form-action{
+  .duration-group{
+    margin-top: 26px;
+  }
+  [name="recipe[duration]"], [name="recipe[kg]"]{
+    width: 75px;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  [for="recipe_kg"], [for="recipe_duration"]{
+    display: inline-block;
+    line-height: 39px;
+    margin-right: 10px;
+  }
+  .img-cache-wr{
+    position: relative;
+    color: $gray-lighter;
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.9;
+      @include transition(opacity .4s);
+    }
+
+    .img-cache-placeholder{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 3px dashed $gray-lighter;
+      border-radius: 10px;
+      min-height: 136px;
+      text-align: center;
+      @include transition(all .4s);
+
+      .fa{
+        margin-top: 44px;
+        font-size: 32px;
+        @include transition(all .4s);
+      }
+
+      .img-label{
+        @include transition(all .4s);
+      }
+
+      &.edit{
+        text-align: left;
+        border: none;
+
+        .fa{
+          position: absolute;
+          left: 15px;
+          bottom: 10px;
+          color: #ffffff;
+          text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+      }
+
+      &:hover{
+        .img-label, .fa{
+          color: $brand-primary;
+        }
+      }
+    }
+  }
+
+  .recipe-text-node{
+    float: none;
+    clear: both;
+    position: relative;
+    padding-top: 10px;
+
+    .remove-link{
+      opacity: 0;
+      position: absolute;
+      left: 5px;
+      top: 0px;
+      z-index: 1;
+      .fa{
+        width: 14px;
+        height: 14px;
+        background: #ffffff;
+        border-radius: 50%;
+      }
+    }
+
+    &:hover .remove-link{
+      opacity: 0.8;
+    }
+
+    .text-container{
+      border: 1px solid transparent;
+      padding: 7px;
+      border-radius: 5px;
+      min-height: 45px;
+
+      &.has-placeholder{
+        color: $gray-light;
+      }
+    }
+
+    .text-container:focus, &:hover .text-container{
+      $color: $input-border-focus;
+      $color-rgba: rgba(red($color), green($color), blue($color), .6);
+      border-color: $color;
+      outline: 0;
+      @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px $color-rgba);
+    }
+
+    .aside-text-container{
+      //    width: 200px;
+      //    margin-right: 15px;
+      float: left;
+      text-align: right;
+      font-style: italic;
+      min-height: 70px;
+      border: 1px solid transparent;
+      padding: 3px 7px 3px 7px;
+
+      &:hover, &:focus{
+        border-radius: 5px;
+
+        $color: $input-border-focus;
+        $color-rgba: rgba(red($color), green($color), blue($color), .6);
+        border-color: $color;
+        outline: 0;
+        @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px $color-rgba);
+      }
+    }
+
+    .text-node-image-wr{
+      cursor: pointer;
+      //    width: calc(100% - 215px);
+      //    float: right;
+      opacity: 1;
+      @include transition(opacity 0.4s);
+
+      &:hover{
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .btn-add-node{
+    margin-right: 7px;
+    .fa{
+      font-size: 26px;
+      margin: 0;
+    }
+  }
+
+  .add-text-node-label{
+    color: $brand-primary;
+    font-size: 24px;
+    margin-right: 7px;
+  }
+}
+
+.recipe-form-component-list{
+  width: 54%;
+  float: left;
+
+  @media (max-width: 1200px){
+    width: 63%;
+  }
+
+  @media (max-width: 992px){
+    width: 100%;
+  }
+
+  @media (max-width: 768px){
+    padding-left: 0;
+  }
+
+  &.active-components{
+    width: 100%;
+  }
+
+  .component-item{
+    &:first-of-type{
+      margin-top: 15px;
+    }
+
+    .line{
+      line-height: 39px;
+    }
+    .dash-col{
+      float: left;
+      line-height: 39px;
+      padding: 0 4px;
+    }
+    .remove-link-col{
+      width: 14px;
+      padding-top: 9px;
+      padding-left: 15px;
+      float: left;
+      position: relative;
+
+      .index{
+        @include transition(all, 0.2s);
+      }
+    }
+    .remove-link{
+      opacity: 0;
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      @include transition(all, 0.4s);
+      z-index: 1;
+    }
+
+    &:hover{
+      .remove-link{
+        opacity: 1;
+      }
+
+      .index{
+        opacity: 0;
+      }
+    }
+
+    .name-col{
+      width: 300px;
+      padding-right: 0px;
+      padding-left: 8px;
+
+      @media (max-width: 992px){
+        width: 330px;
+      }
+
+      @media (max-width: 768px){
+        width: 202px;
+      }
+    }
+
+    .count-col{
+      width: 55px;
+      padding-right: 0;
+      padding-left: 0;
+
+      .form-control{
+        color: $gray-dark;
+        text-align: right;
+        border-right-color: transparent;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        padding-right: 5px;
+
+        &:focus{
+          border-right-color: $input-border-focus;
+        }
+      }
+    }
+
+    .component-price-col{
+      width: 60px;
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    .count-type-col{
+      width: 90px;
+      padding-left: 0;
+      padding-right: 3px;
+
+      .select2-choice{
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        border-left-color: transparent;
+
+        .select2-chosen{
+          padding-top: 5px;
+          padding-left: 8px;
+        }
+      }
+
+      .select2-dropdown-open{
+        .select2-choice{
+          border-left-color: $input-border-focus;
+        }
+      }
+    }
+
+    .component-values-col{
+      width: 540px;
+
+      @media (max-width: 1200px){
+        width: 100%;
+        padding-left: 30px;
+      }
+
+      @media (max-width: 992px){
+        width: 100%;
+        padding-left: 30px;
+      }
+
+      @media (max-width: 768px){
+        width: 100%;
+      }
+    }
+  }
+
+  .select2-container .select2-choice .select2-arrow{
+    top: 2px;
+  }
+}
+
+.component-recipe-values-col{
+  width: 37%;
+  @media (max-width: 1200px){
+    width: 37%;
+  }
+
+  @media (max-width: 992px){
+    width: 50%;
+  }
+
+  @media (max-width: 768px){
+    width: 100%;
+    padding: 0 15px;
+  }
+}
+
+//list
+.recipe-list{
+  .recipe-item{
+    margin-bottom: 20px;
+    position: relative;
+
+    a{
+      font-weight: bold;
+
+      &:hover, &:focus{
+        text-decoration: none;
+      }
+    }
+
+    .title{
+      height: 39px;
+      overflow: hidden;
+    }
+
+    .img-wr{
+      position: relative;
+      overflow: hidden;
+
+      &:hover{
+        .components{
+          opacity: 1;
+        }
+
+        .slide-from-l{
+          left: 0;
+        }
+        .slide-from-t{
+          top: 0;
+        }
+        .slide-from-r{
+          right: 0;
+        }
+        .slide-from-b{
+          bottom: 0;
+        }
+      }
+    }
+    .slide-from-l{
+      left: -100%;
+    }
+    .slide-from-t{
+      top: -100%;
+    }
+    .slide-from-r{
+      right: -100%;
+    }
+    .slide-from-b{
+      bottom: -100%;
+    }
+    .components{
+      position: absolute;
+      z-index: 1;
+      background-color: rgba(0,0,0,0.6);
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      padding: 0 10px 10px 10px;
+      font-size: 12px;
+      @include transition(all .4s);
+
+      .ui-views-count{
+        color: #ffffff;
+        font-size: 14px;
+        margin-left: 0;
+
+        .fa{
+          margin-right: 0;
+        }
+      }
+      ul{
+        padding: 4px 0 0 0;
+        margin: 0;
+        color: #ffffff;
+        list-style: none;
+        font-weight: normal;
+      }
+    }
+
+    .overlay{
+      z-index: 2;
+      position: absolute;
+      right: -5px;
+      bottom: 38px;
+
+
+      .ui-views-count{
+        padding: 5px 10px;
+        display: block;
+        background: white;
+        color: inherit;
+      }
+    }
+
+    .title{
+      margin: 0;
+    }
+
+    .tags{
+      color: $gray-light;
+      font-size: 12px;
+      font-weight: normal;
+    }
+  }
+}
+
+.recipe-show-action{
+  .multiply-weight{
+    .active-text{
+      margin-left: 5px;
+    }
+  }
+  .edit-link{
+    margin-left: 10px;
+  }
+
+  .recipe-text-node{
+    margin-top: 15px;
+  }
+  .culc-input{
+    @extend .active-text;
+    width: 75px;
+    display: inline-block;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: inherit;
+    margin: 0 5px;
+
+    &:hover, &:focus{
+      $color: $input-border-focus;
+      $color-rgba: rgba(red($color), green($color), blue($color), .6);
+      border-color: $color;
+      outline: 0;
+      @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px $color-rgba);
+    }
+  }
+}

@@ -1,0 +1,7 @@
+db:
+  pass: admin
+
+oauth_host: http://food.nature-way.info
+
+host: food.nature-way.info
+port: ~

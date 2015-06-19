@@ -1,0 +1,19 @@
+- ng = defined?(ng) ? ng : false
+/- TODO -t
+- if ng
+  div ng-repeat="component in recipe.components"
+    span ng-bind="component.food().name" #{component.food.name}
+    | &nbsp;&mdash;&nbsp;
+    span
+      span ng-bind="component.count" #{component_count component.count}
+      | &nbsp;
+      span ng-bind="t('ru.count_type.' + component.count_type)" #{t_count_type component.count_type}
+
+- else
+  div ng-show="false"
+    span #{component.food.name}
+    | &nbsp;&mdash;&nbsp;
+    span
+      span #{component_count component.count}
+      | &nbsp;
+      span #{t_count_type component.count_type}

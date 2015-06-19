@@ -1,0 +1,20 @@
+- unless user_signed_in?
+  a href=new_user_session_path
+    i.fa.fa-sign-in
+    | ввійти
+  | &nbsp;|&nbsp;
+  a href=new_user_registration_path
+    i.fa.fa-user
+    | реєстрація
+  | &nbsp;|&nbsp;
+  a href=contacts_path
+    i.fa.fa-envelope
+    | написати нам
+- else
+  a href=my_profile_path
+    i.fa.fa-user
+    | мій кабінет (#{current_user.full_name})
+  | &nbsp;|&nbsp;
+  a href=destroy_user_session_path data-method="delete"
+    | вихід
+    i.fa.fa-sign-out.r

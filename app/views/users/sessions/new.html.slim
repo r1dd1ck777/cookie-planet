@@ -1,0 +1,33 @@
+.registration-page-content
+  h2.h4 Вход
+  .social-login-form
+    span.m-r-10 Войти через:
+
+    a.btn.btn-primary.btn-sm href=user_omniauth_authorize_path(:facebook)
+      | Facebook
+      i.fa.fa-facebook.r
+    a.btn.btn-primary.btn-sm.m-l-10 href=user_omniauth_authorize_path(:vkontakte)
+      | Вконтакте
+      i.fa.fa-vk.r
+    .clearfix
+
+  .dividing-legend.text-center
+    | &mdash; или по-старинке &mdash;
+
+  = simple_form_for resource, as: resource_name, url: session_path(resource_name), html: { class: 's-form'} do |f|
+    = devise_error_messages!
+    .form-group
+      /= f.label :email, class: 'form-label', required: true
+      = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'E-mail'
+    .form-group
+      /= f.label :password, class: 'form-label', required: true
+      = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'Пароль'
+    button.btn.btn-primary.submit-button type="submit"
+      | Войти
+      i.fa.fa-caret-right.r
+    - if devise_mapping.rememberable?
+      .checkbox.pull-right
+        = f.label :remember_me, 'запомнить меня'
+        = f.check_box :remember_me, :checked => true
+    .clearfix
+

@@ -1,0 +1,28 @@
+h2 Мої дані
+.row
+  .col-xs-12.col-sm-4.col-md-3
+    = render 'users/profile/left_menu'
+  .col-xs-12.col-sm-8.col-md-9
+    = simple_form_for resource, as: resource_name, url: registration_path(resource_name), html: { class: 's-form user-edit'} do |f|
+      = devise_error_messages!
+      .clearfix
+      .form-group
+        = f.label :email, class: 'form-label'
+        span
+          = f.full_error :email
+        = f.input_field :email, class: 'form-control', autofocus: true, pattern: '*'
+
+      .form-group
+        = f.label :fname, class: 'form-label'
+        span
+          = f.full_error :fname
+        = f.input_field :fname, class: 'form-control'
+
+      .form-group
+        = f.label :lname, class: 'form-label'
+        span
+          = f.full_error :lname
+        = f.input_field :lname, class: 'form-control'
+
+      .clearfix
+      = render 'form/save_btn'

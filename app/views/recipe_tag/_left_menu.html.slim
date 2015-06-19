@@ -1,0 +1,26 @@
+.recipe-tags-left-menu
+  ul role="menu"
+    li
+      a href=recipe_new_path
+        i.fa.fa-plus
+        | Написать рецепт
+    li class="#{menu? :my_recipes}"
+      a href=recipe_list_path
+        i.fa.fa-smile-o
+        | Мои рецепты
+    li  class="#{menu? :watched}"
+      a href=watched_recipe_list_path rel="nofollow"
+        i.fa.fa-eye
+        | Просмотренные
+    li.divided class="#{menu? :wanted}"
+      a href=wanted_recipe_list_path rel="nofollow"
+        i.fa.fa-star
+        | Избранные
+    li class="#{menu? :home}"
+      a href=root_path rel="nofollow"
+        | Новые
+    - RecipeTag.all.each do |recipe_tag|
+      - 1.times do
+        li  class="#{menu? recipe_tag.menu_key}"
+          a href=permalink_path(recipe_tag)
+            | #{recipe_tag.name}

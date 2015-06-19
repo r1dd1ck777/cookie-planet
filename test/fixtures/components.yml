@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  count: 1.5
+  food_id: 
+  recipe_id: 
+  count_type: MyString
+
+two:
+  count: 1.5
+  food_id: 
+  recipe_id: 
+  count_type: MyString

@@ -1,0 +1,28 @@
+.recipe-text-node.form-group ng-hide="text_node._destroy" recipe-text-node="text_node"
+  a.remove-link rel="nofollow" ng-click="removeTextNode(text_node)" apply-tooltip="" title="Удалить текст"
+    i.fa.fa-times-circle-o
+  .hide
+    input type="text" name="recipe[recipe_text_nodes_attributes][{{ $index }}][id]" value="{{ text_node.id }}"
+    textarea name="recipe[recipe_text_nodes_attributes][{{ $index }}][text]"
+      | {{ text_node.text }}
+    /input type="text" name="recipe[recipe_text_nodes_attributes][{{ $index }}][image_base64]" value="{{ text_node.image_base64 }}"
+    input type="text" name="recipe[recipe_text_nodes_attributes][{{ $index }}][node]" value="{{ text_node.node }}"
+
+  div ng-if="text_node.node == ''"
+    .hide
+      input ng-if="!isEmptyHtml(text_node.text)" type="checkbox" name="recipe[recipe_text_nodes_attributes][{{ $index }}][_destroy]" ng-model="text_node._destroy"
+      input ng-if="isEmptyHtml(text_node.text)" type="checkbox" name="recipe[recipe_text_nodes_attributes][{{ $index }}][_destroy]" checked="checked"
+    .text-container contenteditable="true" ng-model="text_node.text" id="text-container-{{ $index }}" inline-ckeditor="true" placeholder="..."
+
+  div ng-if="text_node.node == 'image'" ng-hide="!text_node.has_image()"
+    .hide
+      input type="text" name="recipe[recipe_text_nodes_attributes][{{ $index }}][image_cache]" ng-model="text_node.image_cache"
+
+      input ng-if="text_node.has_image()" type="checkbox" name="recipe[recipe_text_nodes_attributes][{{ $index }}][_destroy]" ng-model="text_node._destroy"
+      input ng-if="!text_node.has_image()" type="checkbox" name="recipe[recipe_text_nodes_attributes][{{ $index }}][_destroy]" checked="checked"
+    .aside-text-container.col-xs-3 contenteditable="true" ng-model="text_node.text" id="text-container-{{ $index }}" placeholder="..." init-trigger="focus"
+    .img-clickable.col-xs-9
+      .hide
+        input.file type="file" name="recipe[recipe_text_nodes_attributes][{{ $index }}][image]" image-closest-drop=".img-clickable" rid-image-file="" on-image-post-load="onImagePick" image-object="text_node"
+      img.img-responsive recipe-text-node-image="text_node"
+    .clearfix

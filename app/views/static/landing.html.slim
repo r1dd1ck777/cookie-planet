@@ -1,0 +1,10 @@
+= content_for :wide
+  = render 'recipe_tag/left_menu'
+
+  .main-content-postioner
+    .main-content-wrapper
+      .main-content
+        h2 Новые
+        = render 'recipe/list', recipes: @recipes
+
+        .clearfix

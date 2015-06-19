@@ -1,0 +1,28 @@
+- address = f.object
+- is_user_edit = defined?(is_user_edit) ? is_user_edit : false
+
+.form-group
+  = f.label :phone, class: 'form-label', required: address.validate_saving?
+  span
+    = f.full_error :phone
+  = f.input_field :phone, class: 'form-control'
+
+.form-group
+  = f.label :address, class: 'form-label', required: address.validate_saving?
+  span
+    = f.full_error :address
+  = f.input_field :address, class: 'form-control'
+
+- unless is_user_edit
+  .form-group
+    = f.label :username, class: 'form-label'
+    span
+      = f.full_error :username
+    = f.input_field :username, class: 'form-control'
+
+  .form-group
+    = f.label :email, class: 'form-label'
+    span
+      = f.full_error :email
+    = f.input_field :email, class: 'form-control'
+

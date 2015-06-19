@@ -1,0 +1,243 @@
+.navbar {
+  margin-bottom: 0;
+}
+
+html{
+}
+
+header{
+  border-bottom: 1px solid $gray-navbar-border;
+
+  &.container-header{
+    @include box-shadow(0px 3px 6px rgba(0,0,0,0.2));
+  }
+  .navbar-form{
+    width: 100%;
+
+    @media (min-width: 768px) {
+      width: 300px;
+    }
+    input{
+      font-weight: normal;
+    }
+  }
+
+  .search-form{
+    input[type="text"]{
+      width: 100px;
+      border-right: 0;
+      @include border-right-radius(0);
+      @include transition(all 0.4s);
+
+      &:focus, &.active{
+        width: 200px;
+      }
+    }
+    .btn{
+      @include border-left-radius(0);
+    }
+  }
+}
+
+.vk-navbar-brand{
+  margin-right: 15px;
+  display: inline-block;
+
+  .brand-icon{
+    margin-top: 15px;
+    display: block;
+    float: left;
+  }
+  .brand-label{
+    display: block;
+    float: left;
+
+    & > div:nth-child(1){
+      font-size: 24px;
+      line-height: 10px;
+      display: block;
+      margin: 14px 0 0 0;
+    }
+
+    & > div:nth-child(2){
+      line-height: 17px;
+      margin-left: 30px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .vk-navbar-brand{
+    margin-left: 0;
+  }
+}
+
+.recipe-tags-left-menu{
+  font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+  width: 200px;
+  float: left;
+  background-color: #ffffff;
+  height: 100%;
+  display: none;
+
+  ul{
+    padding: 7px 0 0 0;
+    margin: 0 0 20px 0;
+    list-style: none;
+
+    li{
+      margin: 0 10px;
+
+      .fa{
+        font-size: 12px;
+        margin-right: 5px;
+      }
+
+      &.divided > a{
+        border-bottom: 1px solid $menu-link-color;
+      }
+    }
+  }
+
+  a{
+    @include transition(all .2s);
+    color: $menu-link-color;
+    display: block;
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  .active a, a:hover{
+    text-decoration: none;
+    color: #ffffff;
+    background: $menu-link-color;
+    border: 1px solid darken($menu-link-color, 15);
+  }
+
+  @media (min-width: 768px){
+      display: block;
+  }
+}
+
+.main-content-postioner{
+  .main-content-wrapper{
+    background-color: $gray-navbar-bg;
+    border-left: 1px solid $gray-navbar-border;
+    padding-top: 15px;
+  }
+
+  .main-content{
+    width: 100%;
+    padding: 0 15px 30px 15px;
+    margin: 0 auto;
+
+    h2{
+      margin-left: 0;
+    }
+  }
+}
+
+@media (min-width: 768px){
+  .main-content-postioner{
+    padding-left: 200px;
+
+    .main-content{
+      padding: 0;
+      margin: 0 auto;
+
+      h2{
+        margin-left: 15px;
+        margin-top: 5px;
+      }
+    }
+  }
+}
+
+.gray-navbar{
+  background: $gray-navbar-bg;
+  border-bottom: 1px solid $gray-navbar-border;
+  border-top: 1px solid $gray-navbar-border;
+  padding: 15px 0;
+}
+
+.social-login-form{
+  .btn{
+    margin-left: 10px;
+  }
+}
+
+.flash-message{
+  padding: 15px 0;
+  border-bottom: 1px solid $gray-navbar-border;
+  background: $gray-navbar-bg;
+  text-align: center;
+
+  &.notice{
+
+  }
+}
+
+.navbar-nav > li > a.header-user-logo{
+  padding: 0;
+  line-height: 50px;
+}
+
+.header-user-logo{
+  .caret{
+    margin: 0 10px;
+  }
+  img{
+    margin-left: 10px;
+    border-radius: 50%;
+    width: 45px;
+  }
+}
+
+footer{
+  border-top: 1px solid $gray-light;
+}
+
+.registration-page{
+  background: url(asset-path('chocolate-chip-cookies-2_sm.jpg')) no-repeat center top;
+  background-size: cover;
+
+  header{
+    background-color: rgba(255,255,255,0.8);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+  }
+
+  footer{
+    color: #ffffff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    border-top: 1px solid $gray-navbar-border;
+  }
+}
+
+.registration-page-content{
+  color: $gray-dark;
+  margin-top: 15px;
+  background-color: rgba(255,255,255,0.8);
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 6px 6px rgba(0,0,0,0.3);
+  border: 1px solid $gray-navbar-border;
+
+  @media(min-width: 768px){
+    width: 400px;
+    margin: 30px auto;
+  }
+
+  @media(min-width: 1200px){
+    margin-top: 100px;
+    margin-bottom: 100px;
+  }
+
+  .submit-button{
+    width: 100%;
+  }
+}
+
+.dividing-legend{
+  margin: 20px 0;
+}

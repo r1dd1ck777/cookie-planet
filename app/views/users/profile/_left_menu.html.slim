@@ -1,0 +1,7 @@
+ul
+  li class="#{params[:action] == 'index' ? 'active' : ''}"
+    a href=my_profile_path Мої замовлення
+  li class="#{params[:action] == 'edit' ? 'active' : ''}"
+    a href=edit_user_registration_path Мої дані
+  li class="#{params[:action] == 'edit_password' ? 'active' : ''}"
+    a href=edit_password_path Мій пароль

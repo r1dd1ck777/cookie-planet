@@ -1,0 +1,159 @@
+ru:
+  activerecord:
+    models:
+      promotion: Акция
+      category: Категория
+      size: Размер
+      product: Продукт
+      material: Материал
+      color: Цвет
+      brand: Бренд
+      admin_user: Админы
+      image: Изображение
+      slide: Слайд
+      partial: Текстовый блок
+      payment: Способ оплаты
+      delivery: Способ доставки
+      order: Заказ
+      static_page: Статическая страница
+      user: Пользователь
+      meta_page: Мета теги
+      mention: Отзыв
+      recipe: Рецепт
+
+    attributes:
+      recipe:
+        text: Приготовление
+        title: Название
+        recipe_tags: Категории
+        kg: Готовый вес
+        duration: Время приготовления
+      meta_page:
+        path: Путь страницы
+        no_wrap_title: Чистый тайтл
+
+      category:
+        subcategories: Подкатегории
+        meta_tags: Мета теги
+        products: Продукты
+        products2: Продукты
+        description: Описание
+        level: Уровень
+        created_at: Создан
+        updated_at: Редактирован
+        parent: Родитель
+        name: Название
+        slug: url-ключ
+        slides: Слайды
+
+      mention:
+        username: Имя
+        email: Е-мейл
+        text: Отзыв
+        product: Продукт
+
+      product:
+        name: Название
+        products: Продукты
+        created_at: Создан
+        updated_at: Редактирован
+        description: Описание
+        description_short: Описание (в списке)
+        code: Код
+        brand: Бренд
+        price: Цена
+        package: Фасовка
+        album: Альбом
+        colors: Цвета
+        categories: Категории
+        related: Похожие
+        similar: Сочетать с
+        slug: url-ключ
+        is_promotion: Акция
+        is_published: Опубликован
+
+      material:
+        name: Название
+        products: Продукты
+        created_at: Создан
+        updated_at: Редактирован
+
+      color:
+        name: Название
+        color: Цвет
+        products: Продукты
+        created_at: Создан
+        updated_at: Редактирован
+
+      brand:
+        name: Название
+        slug: url-ключ
+        description: Описание
+        image: Изображение
+        created_at: Создан
+        updated_at: Редактирован
+
+      admin_user:
+        email: E-mail
+        current_sign_in_at: Последний вход
+        sign_in_count: К-во входов
+        password: Пароль
+        created_at: Создан
+
+      image:
+        image: Изображение
+
+      slide:
+        image: Изображение
+        description: Описание
+        category: Категория
+        is_front: На главной
+
+      partial:
+        text: Текст
+        placement: Метоположение
+
+
+      address:
+        phone: Контактний телефон
+        address: Повна адреса
+        username: Ім'я
+        email: E-mail
+
+      payment:
+        name: Название
+
+      delivery:
+        name: Название
+
+      order:
+        payment: Спосіб оплати
+        delivery: Спосіб доставки
+        comments: Комментарі до замовлення
+        status: Статус замовлення
+        user: Пользователь
+        order_items: Товари
+        cost: Полная стоимость
+        address: Адрес
+        created_at: Создан
+        updated_at: Редактирован
+
+      static_page:
+        title: заголовок
+        text: содержание
+        slug: url-ключ
+        created_at: Создан
+        updated_at: Редактирован
+
+      user:
+        email: E-mail
+        fname: Имя
+        lname: Фамилия
+        last_sign_in_at: Последний вход
+        address: Адрес
+        orders: Заказы
+
+        current_password: Текущий пароль
+        password: Пароль
+        password_confirmation: Еще раз пароль
+

@@ -1,0 +1,8 @@
+- btn = btn ? btn : 'Сохранить'
+hr
+.form-group
+  = render 'form/form_asterics_legend'
+  button.btn.btn-primary.pull-right type="submit"
+    | #{btn}
+    i.fa.fa-caret-right.r
+  .clearfix

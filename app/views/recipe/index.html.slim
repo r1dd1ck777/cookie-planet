@@ -1,0 +1,12 @@
+= content_for :wide
+  = render 'recipe_tag/left_menu'
+
+  .main-content-postioner
+    .main-content-wrapper
+      .main-content
+        h2 #{@recipe_tag.name}
+        = render 'recipe/list', recipes: @recipes
+
+        .clearfix
+        .col-xs-12
+          = paginate @recipes

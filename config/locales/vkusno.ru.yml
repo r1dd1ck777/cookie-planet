@@ -1,0 +1,23 @@
+ru:
+  recipe:
+    created: Ура новая вкусняшка!)
+    updated: Вкусняшка чуток изменена)
+    deleted: Вкусняшка удалена... навсегда... но мы будем помнить о ней
+
+  registration:
+    complete: Добро пожаловать на нашу планету!)
+
+  count_type:
+    item: 'шт.'
+    kg: 'кг.'
+    gr: 'гр.'
+    glass: 'стакан'
+    s_spoon: 'ч.л'
+    l_spoon: 'ст.л'
+    sand: 'щеп.'
+    box: 'пачка'
+    l: 'л.'
+    ml: 'мл.'
+
+  wanted_recipe:
+    created: Добавлено в избранное

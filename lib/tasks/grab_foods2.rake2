@@ -1,0 +1,83 @@
+require "net/http"
+
+namespace :grab do
+  task :foods2, [:id] => :environment do |t, args|
+
+    process_foods
+    p "------------Success"
+  end
+
+  task :test => :environment do
+  end
+
+  def process_foods
+    page = get_page(url("/gl_index"))
+    if page.nil?
+      puts "ERROR"
+      return nil
+    end
+
+    food_rows = page.css(".info_table tr")
+    food_rows.each_with_index do |food_row, i|
+      if valid_food_row?(food_row)
+        tds = food_row.css('td')
+        food = Food.find_or_initialize_by name: fix_text(tds[0].text, false)
+        food.food_value.destroy! if food.persisted? && food.food_value
+        food_value = FoodValue.new sugar_index: fix_text(tds[1].text, false),
+                                   energy: fix_text(tds[2].text, true),
+                                   protein: fix_text(tds[3].text, true),
+                                   fat: fix_text(tds[4].text, true),
+                                   sugar: fix_text(tds[5].text, true)
+
+        food.food_value = food_value
+        food.save!
+
+        # p fix_text(tds[4].text)
+
+      end
+    end
+  end
+
+  def valid_food_row? food_row
+    (!food_row.text.include?('Наименоване') && !food_row.text.include?('Белки')&& !food_row.text.include?('Пищевая ценность'))
+  end
+
+  def url_exists? url
+    # sleep(0.5)
+    url = URI.parse(url)
+    req = Net::HTTP.new(url.host, url.port)
+    res = req.request_head(url.path)
+
+    res.code == "200"
+  rescue
+    return false
+  end
+
+  def in_witelist? url
+    r = false
+    %w(jpg jpeg png bmp).each do |ext|
+      return true if url.include? ext
+    end
+
+    r
+  end
+
+  def valid_image? url
+    in_witelist?(url) && url != '/images/no-rid-image.png?1.001' && url_exists?(url)
+  end
+
+  def get_page path
+    abs_url = url path
+    puts abs_url
+
+    url_exists?(abs_url) ? Nokogiri::HTML(open(abs_url)) : nil
+  end
+
+  def url path
+    path.index('http').present? ? path : "http://hudeemkrasivo.ru#{path}"
+  end
+
+  def fix_text text, is_float
+    text.gsub("\n", '').gsub("\t", '').gsub("#{ is_float ? "," : "nannanana"}", '.').strip
+  end
+end

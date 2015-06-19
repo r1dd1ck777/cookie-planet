@@ -1,0 +1,25 @@
+default: &default
+  adapter: mysql2
+  host: <%= Settings.db.host %>
+  username: <%= Settings.db.user %>
+  password: <%= Settings.db.pass %>
+  database: <%= Settings.db.name %>
+  encoding: utf8
+  pool: 5
+  timeout: 5000
+#  adapter: sqlite3
+
+development:
+  <<: *default
+  database: <%= Settings.db.name %>
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: <%= Settings.db.name %>_test
+
+production:
+  <<: *default
+  database: <%= Settings.db.name %>
